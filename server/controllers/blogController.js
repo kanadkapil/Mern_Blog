@@ -65,16 +65,23 @@ const getAllBlogs = async (req, res) => {
     query.author = { $in: activeUserIds };
 
     const blogs = await Blog.find(query).sort({ createdAt: -1 }).limit(20);
-
-    // Trending algorithm: likes + recency (simplified for MongoDB)
-    // In a real app, this might be a more complex aggregation
     const trendingBlogs = await Blog.find(query)
       .sort({ likes: -1, createdAt: -1 })
       .limit(10);
 
+    const userId = req.user ? req.user.id : null;
+
+    const mapLiked = (blog) => {
+      const blogObj = blog.toObject({ virtuals: true });
+      blogObj.liked = userId
+        ? blog.likedBy.some((id) => id.toString() === userId)
+        : false;
+      return blogObj;
+    };
+
     res.json({
-      latest: blogs,
-      trending: trendingBlogs,
+      latest: blogs.map(mapLiked),
+      trending: trendingBlogs.map(mapLiked),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -94,12 +101,17 @@ const getBlogBySlug = async (req, res) => {
     // Check visibility
     if (
       blog.visibility === "private" &&
-      (!req.user || blog.author.toString() !== req.user.id)
+      (!req.user || blog.author._id.toString() !== req.user.id)
     ) {
       return res.status(403).json({ message: "This blog is private" });
     }
 
-    res.json(blog);
+    const blogObj = blog.toObject({ virtuals: true });
+    blogObj.liked = req.user
+      ? blog.likedBy.some((id) => id.toString() === req.user.id)
+      : false;
+
+    res.json(blogObj);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -176,10 +188,28 @@ const likeBlog = async (req, res) => {
   }
 };
 
+const getBlogById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blog = await Blog.findById(id).populate("author", "username profile");
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    const blogObj = blog.toObject({ virtuals: true });
+    blogObj.liked = req.user
+      ? blog.likedBy.some((uid) => uid.toString() === req.user.id)
+      : false;
+
+    res.json(blogObj);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createBlog,
   getAllBlogs,
   getBlogBySlug,
+  getBlogById,
   updateBlog,
   deleteBlog,
   likeBlog,

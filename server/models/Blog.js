@@ -51,10 +51,18 @@ const BlogSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 
 // Index for search
 BlogSchema.index({ title: "text", content: "text", hashtags: "text" });
+
+BlogSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
 
 module.exports = mongoose.model("Blog", BlogSchema);

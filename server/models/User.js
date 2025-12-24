@@ -21,20 +21,48 @@ const UserSchema = new mongoose.Schema(
     profile: {
       bio: { type: String, default: "" },
       profilePicture: { type: String, default: "" },
+      backgroundImage: { type: String, default: "" },
+
       socialLinks: {
-        youtube: { type: String, default: "" },
-        instagram: { type: String, default: "" },
-        facebook: { type: String, default: "" },
-        gmail: { type: String, default: "" },
-        linkedin: { type: String, default: "" },
-        github: { type: String, default: "" },
+        youtube: {
+          url: { type: String, default: "" },
+          visible: { type: Boolean, default: true },
+        },
+        instagram: {
+          url: { type: String, default: "" },
+          visible: { type: Boolean, default: true },
+        },
+        facebook: {
+          url: { type: String, default: "" },
+          visible: { type: Boolean, default: true },
+        },
+        gmail: {
+          url: { type: String, default: "" },
+          visible: { type: Boolean, default: true },
+        },
+        linkedin: {
+          url: { type: String, default: "" },
+          visible: { type: Boolean, default: true },
+        },
+        github: {
+          url: { type: String, default: "" },
+          visible: { type: Boolean, default: true },
+        },
       },
       spotifyTrack: { type: String, default: "" }, // Favorite track or embed link
       isPublic: { type: Boolean, default: true },
       isActive: { type: Boolean, default: true },
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
+
+UserSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
 
 module.exports = mongoose.model("User", UserSchema);

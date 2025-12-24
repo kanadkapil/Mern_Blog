@@ -2,8 +2,14 @@ const User = require("../models/User");
 
 const updateProfile = async (req, res) => {
   try {
-    const { bio, profilePicture, socialLinks, spotifyTrack, isPublic } =
-      req.body;
+    const {
+      bio,
+      profilePicture,
+      backgroundImage,
+      socialLinks,
+      spotifyTrack,
+      isPublic,
+    } = req.body;
 
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -11,11 +17,24 @@ const updateProfile = async (req, res) => {
     if (bio !== undefined) user.profile.bio = bio;
     if (profilePicture !== undefined)
       user.profile.profilePicture = profilePicture;
-    if (socialLinks)
-      user.profile.socialLinks = {
-        ...user.profile.socialLinks,
-        ...socialLinks,
-      };
+    if (backgroundImage !== undefined)
+      user.profile.backgroundImage = backgroundImage;
+
+    if (socialLinks) {
+      // Deep merge for socialLinks
+      for (const platform in socialLinks) {
+        if (user.profile.socialLinks[platform]) {
+          if (socialLinks[platform].url !== undefined) {
+            user.profile.socialLinks[platform].url = socialLinks[platform].url;
+          }
+          if (socialLinks[platform].visible !== undefined) {
+            user.profile.socialLinks[platform].visible =
+              socialLinks[platform].visible;
+          }
+        }
+      }
+    }
+
     if (spotifyTrack !== undefined) user.profile.spotifyTrack = spotifyTrack;
     if (isPublic !== undefined) user.profile.isPublic = isPublic;
 

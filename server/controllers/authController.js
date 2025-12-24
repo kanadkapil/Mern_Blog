@@ -37,7 +37,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       profile: {
         socialLinks: {
-          gmail: email,
+          gmail: { url: email, visible: true },
         },
       },
     });
