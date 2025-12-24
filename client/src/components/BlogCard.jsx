@@ -32,13 +32,14 @@ const BlogCard = ({ blog }) => {
                 </p>
                 <div className="mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-zinc-500 dark:text-zinc-400 text-xs">
                     <div className="flex items-center gap-3">
-                        <span className="flex items-center gap-1">
+                        <Link to={`/profile/${blog.authorName}`} className="flex items-center gap-1 hover:text-indigo-600 transition-colors">
                             <User size={14} /> {blog.authorName}
-                        </span>
+                        </Link>
                         <span className="flex items-center gap-1">
                             <Clock size={14} /> {new Date(blog.createdAt).toLocaleDateString()}
                         </span>
                     </div>
+
                     <div className="flex items-center gap-1">
                         <Heart size={14} className={blog.liked ? "fill-red-500 text-red-500" : ""} />
                         <span>{blog.likes}</span>

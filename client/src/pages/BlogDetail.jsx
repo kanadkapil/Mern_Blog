@@ -86,11 +86,14 @@ const BlogDetail = () => {
                             <User size={24} />
                         </div>
                         <div>
-                            <p className="font-bold text-zinc-900 dark:text-white">{blog.authorName}</p>
-                            <div className="flex items-center gap-3 text-sm text-zinc-500">
-                                <span className="flex items-center gap-1 font-medium"><Calendar size={14} /> {new Date(blog.createdAt).toLocaleDateString()}</span>
-                                <span className="flex items-center gap-1 font-medium"><Heart size={14} /> {blog.likes} likes</span>
-                            </div>
+                        <Link to={`/profile/${blog.authorName}`} className="hover:text-indigo-600 transition-colors">
+                            <p className="font-extrabold text-zinc-900 dark:text-white">{blog.authorName}</p>
+                        </Link>
+                        <div className="flex items-center gap-3 text-sm text-zinc-500">
+                             <span className="flex items-center gap-1 font-medium"><Calendar size={14} /> {new Date(blog.createdAt).toLocaleDateString()}</span>
+                             <span className="flex items-center gap-1 font-medium"><Heart size={14} /> {blog.likes} likes</span>
+                        </div>
+
                         </div>
                     </div>
 
