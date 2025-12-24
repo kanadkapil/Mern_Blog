@@ -1,0 +1,24 @@
+[
+  {
+    "id": "d688053d-34f1-47b3-8a75-88b732821493",
+    "email": "tupanush@gmail.com",
+    "username": "tupanush",
+    "password": "$2b$10$jylPg159s95qNh4Gu7JfOODzAJ0DGHiauj7TTxg6Wn./bQRdE40rK",
+    "profile": {
+      "bio": "Just Ok",
+      "profilePicture": "https://scontent.fluh1-3.fna.fbcdn.net/v/t39.30808-6/518171777_9959158917528935_1765118892998928463_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=y8FUPW6QeAcQ7kNvwG9T_qS&_nc_oc=AdmZO8yRpmdoiwzzrjEg_2awoqh4RUFTwoSJRs80D7YurGXXgbh_rnrOVHxF2NjaORA&_nc_zt=23&_nc_ht=scontent.fluh1-3.fna&_nc_gid=Oky2WQ0erjArbYp77ymsNg&oh=00_AfmlR2grlRwcgnqbPEw2Rj9Y1O5IuENsMCS5GPr1QHwBBA&oe=69518010",
+      "socialLinks": {
+        "youtube": "",
+        "instagram": "github.com/kabi.raj_",
+        "facebook": "",
+        "gmail": "tupanush@gmail.com",
+        "linkedin": "linkedin.com/kanadkapil",
+        "github": "github.com/kanadkapil"
+      },
+      "spotifyTrack": "https://open.spotify.com/track/7j74lucZ59vqN67Ipe2ZcY?si=dee394921dfd4680",
+      "isPublic": true,
+      "isActive": true
+    },
+    "createdAt": "2025-12-24T09:24:28.118Z"
+  }
+]
